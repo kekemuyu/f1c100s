@@ -1,16 +1,16 @@
-package oled
+package oled_mmap
 
 import (
-	"oled_spi/gpio"
+	"oled_spi/gpio_mmap"
 	"time"
 )
 
 const (
-	OLED_CLK = "gpio131"
-	OLED_DI  = "gpio132"
-	OLED_RST = "gpio133"
-	OLED_DC  = "gpio138"
-	OLED_CS  = "gpio139"
+	OLED_CLK = 3
+	OLED_DI  = 4
+	OLED_RST = 5
+	OLED_DC  = 10
+	OLED_CS  = 11
 
 	OLED_CMD  = 0 //写命令
 	OLED_DATA = 1 //写数据
@@ -21,12 +21,7 @@ const (
 )
 
 func Init() {
-	gpio.OpenGpioFile(OLED_CLK)
-	gpio.OpenGpioFile(OLED_DI)
-	gpio.OpenGpioFile(OLED_RST)
-	gpio.OpenGpioFile(OLED_DC)
-	gpio.OpenGpioFile(OLED_CS)
-
+	gpio_mmap.InitPE()
 	SetRst()
 	time.Sleep(time.Millisecond * 100)
 	ClrRst()
@@ -68,41 +63,40 @@ func Init() {
 }
 
 func SetClk() {
-	gpio.GpioNSetValue(OLED_CLK, "1")
+	gpio_mmap.GpioNSetBit(gpio_mmap.PEdatabase, OLED_CLK, 1)
 }
-
 func ClrClk() {
-	gpio.GpioNSetValue(OLED_CLK, "0")
+	gpio_mmap.GpioNSetBit(gpio_mmap.PEdatabase, OLED_CLK, 0)
 }
 
 func SetDi() {
-	gpio.GpioNSetValue(OLED_DI, "1")
+	gpio_mmap.GpioNSetBit(gpio_mmap.PEdatabase, OLED_DI, 1)
 }
 
 func ClrDi() {
-	gpio.GpioNSetValue(OLED_DI, "0")
+	gpio_mmap.GpioNSetBit(gpio_mmap.PEdatabase, OLED_DI, 0)
 }
 
 func SetRst() {
-	gpio.GpioNSetValue(OLED_RST, "1")
+	gpio_mmap.GpioNSetBit(gpio_mmap.PEdatabase, OLED_RST, 1)
 }
 
 func ClrRst() {
-	gpio.GpioNSetValue(OLED_RST, "0")
+	gpio_mmap.GpioNSetBit(gpio_mmap.PEdatabase, OLED_RST, 0)
 }
 func SetDc() {
-	gpio.GpioNSetValue(OLED_DC, "1")
+	gpio_mmap.GpioNSetBit(gpio_mmap.PEdatabase, OLED_DC, 1)
 }
 
 func ClrDc() {
-	gpio.GpioNSetValue(OLED_DC, "0")
+	gpio_mmap.GpioNSetBit(gpio_mmap.PEdatabase, OLED_DC, 0)
 }
 func SetCs() {
-	gpio.GpioNSetValue(OLED_CS, "1")
+	gpio_mmap.GpioNSetBit(gpio_mmap.PEdatabase, OLED_CS, 1)
 }
 
 func ClrCs() {
-	gpio.GpioNSetValue(OLED_CS, "0")
+	gpio_mmap.GpioNSetBit(gpio_mmap.PEdatabase, OLED_CS, 0)
 }
 
 func WriteByte(dat, cmd byte) {

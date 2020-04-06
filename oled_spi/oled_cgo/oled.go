@@ -1,16 +1,16 @@
-package oled
+package oled_cgo
 
 import (
-	"oled_spi/gpio"
+	"oled_spi/devmem_cgo"
 	"time"
 )
 
 const (
-	OLED_CLK = "gpio131"
-	OLED_DI  = "gpio132"
-	OLED_RST = "gpio133"
-	OLED_DC  = "gpio138"
-	OLED_CS  = "gpio139"
+	OLED_CLK = 3
+	OLED_DI  = 4
+	OLED_RST = 5
+	OLED_DC  = 10
+	OLED_CS  = 11
 
 	OLED_CMD  = 0 //写命令
 	OLED_DATA = 1 //写数据
@@ -20,12 +20,28 @@ const (
 	Max_Row    = 64
 )
 
+
 func Init() {
-	gpio.OpenGpioFile(OLED_CLK)
-	gpio.OpenGpioFile(OLED_DI)
-	gpio.OpenGpioFile(OLED_RST)
-	gpio.OpenGpioFile(OLED_DC)
-	gpio.OpenGpioFile(OLED_CS)
+	devmem_cgo.Openfile()
+	devmem_cgo.Writebit(0x1c20890, 12, 1) //pe3 out
+	devmem_cgo.Writebit(0x1c20890, 13, 0)
+	devmem_cgo.Writebit(0x1c20890, 14, 0)
+
+	devmem_cgo.Writebit(0x1c20890, 16, 1) //pe4 out
+	devmem_cgo.Writebit(0x1c20890, 17, 0)
+	devmem_cgo.Writebit(0x1c20890, 18, 0)
+
+	devmem_cgo.Writebit(0x1c20890, 20, 1) //pe5 out
+	devmem_cgo.Writebit(0x1c20890, 21, 0)
+	devmem_cgo.Writebit(0x1c20890, 22, 0)
+
+	devmem_cgo.Writebit(0x1c20894, 8, 1) //pe10 out
+	devmem_cgo.Writebit(0x1c20894, 9, 0)
+	devmem_cgo.Writebit(0x1c20894, 10, 0)
+
+	devmem_cgo.Writebit(0x1c20894, 12, 1) //pe11 out
+	devmem_cgo.Writebit(0x1c20894, 13, 0)
+	devmem_cgo.Writebit(0x1c20894, 14, 0)
 
 	SetRst()
 	time.Sleep(time.Millisecond * 100)
@@ -68,41 +84,40 @@ func Init() {
 }
 
 func SetClk() {
-	gpio.GpioNSetValue(OLED_CLK, "1")
+	devmem_cgo.Writebit(0x1c208a0, 3, 1)
 }
-
 func ClrClk() {
-	gpio.GpioNSetValue(OLED_CLK, "0")
+	devmem_cgo.Writebit(0x1c208a0, 3, 0)
 }
 
 func SetDi() {
-	gpio.GpioNSetValue(OLED_DI, "1")
+	devmem_cgo.Writebit(0x1c208a0, 4, 1)
 }
 
 func ClrDi() {
-	gpio.GpioNSetValue(OLED_DI, "0")
+	devmem_cgo.Writebit(0x1c208a0, 4, 0)
 }
 
 func SetRst() {
-	gpio.GpioNSetValue(OLED_RST, "1")
+	devmem_cgo.Writebit(0x1c208a0, 5, 1)
 }
 
 func ClrRst() {
-	gpio.GpioNSetValue(OLED_RST, "0")
+	devmem_cgo.Writebit(0x1c208a0, 5, 0)
 }
 func SetDc() {
-	gpio.GpioNSetValue(OLED_DC, "1")
+	devmem_cgo.Writebit( 0x1c208a0, 10, 1)
 }
 
 func ClrDc() {
-	gpio.GpioNSetValue(OLED_DC, "0")
+	devmem_cgo.Writebit(0x1c208a0, 10, 0)
 }
 func SetCs() {
-	gpio.GpioNSetValue(OLED_CS, "1")
+	devmem_cgo.Writebit( 0x1c208a0, 11, 1)
 }
 
 func ClrCs() {
-	gpio.GpioNSetValue(OLED_CS, "0")
+	devmem_cgo.Writebit(0x1c208a0, 11, 0)
 }
 
 func WriteByte(dat, cmd byte) {
