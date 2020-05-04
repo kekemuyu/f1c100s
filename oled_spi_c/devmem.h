@@ -15,6 +15,6 @@
 
 #define MAP_SIZE 4096UL
 #define MAP_MASK (MAP_SIZE - 1)
-void Openfile();
+void Openfile(long  target);
 void Closefile();
-void Writebit(long  target,int bitsize ,char value);
+void Writebit(int offset,int bitsize ,char value);

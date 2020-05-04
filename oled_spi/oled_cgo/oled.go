@@ -160,6 +160,17 @@ func Clear() {
 	}
 }
 
+func Unclear() {
+	for i := byte(0); i < 8; i++ {
+		WriteByte(0xb0+i, OLED_CMD) //设置页地址（0~7）
+		WriteByte(0x00, OLED_CMD)   //设置显示位置—列低地址
+		WriteByte(0x10, OLED_CMD)   //设置显示位置—列高地址
+		for n := 0; n < 128; n++ {
+			WriteByte(1, OLED_DATA) //更新显示
+		}
+	}
+}
+
 func ShowChar(x, y, chr byte) {
 	c := chr - ' ' //得到偏移后的值
 	if x > Max_Column-1 {

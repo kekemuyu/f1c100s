@@ -1,8 +1,9 @@
 #include "oled.h"
 #include "font.h"
 #include "devmem.h"
+#include <linux/unistd.h>
 //OLED的显存
-//存放格式如下.
+//存攠�式如下.
 //[0]0 1 2 3 ... 127    
 //[1]0 1 2 3 ... 127    
 //[2]0 1 2 3 ... 127    
@@ -12,52 +13,51 @@
 //[6]0 1 2 3 ... 127    
 //[7]0 1 2 3 ... 127                
 
-#if OLED_MODE==1
 
-//-----------------OLED端口定义---------------- 
-OLED_SCLK_Clr() //CLK
+void OLED_SCLK_Clr() //CLK
 {
-  Writebit(0x1c208a0, 3, 0)  
+  Writebit(0x1c208a0, 3, 0)  ;
 }
-OLED_SCLK_Set() 
+void OLED_SCLK_Set() 
 {
-   Writebit(0x1c208a0, 3, 1) 
+   Writebit(0x1c208a0, 3, 1) ;
 } 
-OLED_SDIN_Clr() //DIN
+void OLED_SDIN_Clr() //DIN
 {
-    Writebit(0x1c208a0, 4, 0)
+    Writebit(0x1c208a0, 4, 0);
 }
-OLED_SDIN_Set() 
+void OLED_SDIN_Set() 
 {
-    Writebit(0x1c208a0, 4, 1)
+    Writebit(0x1c208a0, 4, 1);
 }                       
 
 
-OLED_RST_Clr() //GPIO_ResetBits(GPIOD,GPIO_Pin_4)//RES
+void OLED_RST_Clr() //GPIO_ResetBits(GPIOD,GPIO_Pin_4)//RES
 {
-    Writebit(0x1c208a0, 5, 0)
+    Writebit(0x1c208a0, 5, 0);
 }
-OLED_RST_Set() //GPIO_SetBits(GPIOD,GPIO_Pin_4)
+void OLED_RST_Set() //GPIO_SetBits(GPIOD,GPIO_Pin_4)
 {
-    Writebit(0x1c208a0, 5, 1)
+    Writebit(0x1c208a0, 5, 1);
 }
-OLED_DC_Clr()  //GPIO_ResetBits(GPIOD,GPIO_Pin_5)//DC
+void OLED_DC_Clr()  //GPIO_ResetBits(GPIOD,GPIO_Pin_5)//DC
 {
-  Writebit(0x1c208a0, 10, 0)  
+  Writebit(0x1c208a0, 10, 0)  ;
 }
-OLED_DC_Set()  //GPIO_SetBits(GPIOD,GPIO_Pin_5)
+void OLED_DC_Set()  //GPIO_SetBits(GPIOD,GPIO_Pin_5)
 {
-    Writebit(0x1c208a0, 10, 1)
+    Writebit(0x1c208a0, 10, 1);
 }
 
-OLED_CS_Clr()  //CS
+void OLED_CS_Clr()  //CS
 {
-    Writebit(0x1c208a0, 11, 0)
+    Writebit(0x1c208a0, 11, 0);
 }
-OLED_CS_Set()  //GPIO_SetBits(GPIOD,GPIO_Pin_3)
+void OLED_CS_Set()  //GPIO_SetBits(GPIOD,GPIO_Pin_3)
 {
-    Writebit(0x1c208a0, 11, 1)
+    Writebit(0x1c208a0, 11, 1);
 }
+#if OLED_MODE==1
 
 //向SSD1106写入一个字节。
 //dat:要写入的数据/命令
@@ -224,7 +224,7 @@ void OLED_ShowString(u8 x,u8 y,u8 *chr)
 //      }                    
 //}
 /***********功能描述：显示显示BMP图片128×64起始点坐标(x,y),x的范围0～127，y为页的范围0～7*****************/
-void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1,flash unsigned char *BMP)
+void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned char y1, unsigned char *BMP)
 {     
  unsigned int j=0;
  unsigned char x,y;
@@ -245,32 +245,32 @@ void OLED_DrawBMP(unsigned char x0, unsigned char y0,unsigned char x1, unsigned 
 //初始化SSD1306                        
 void OLED_Init(void)
 {   
-    devmem_cgo.Openfile()
-	devmem_cgo.Writebit(0x1c20890, 12, 1) //pe3 out
-	devmem_cgo.Writebit(0x1c20890, 13, 0)
-	devmem_cgo.Writebit(0x1c20890, 14, 0)
+    Openfile();
+	Writebit(0x1c20890, 12, 1); //pe3 out
+	Writebit(0x1c20890, 13, 0);
+	Writebit(0x1c20890, 14, 0);
 
-	devmem_cgo.Writebit(0x1c20890, 16, 1) //pe4 out
-	devmem_cgo.Writebit(0x1c20890, 17, 0)
-	devmem_cgo.Writebit(0x1c20890, 18, 0)
+	Writebit(0x1c20890, 16, 1); //pe4 out
+	Writebit(0x1c20890, 17, 0);
+	Writebit(0x1c20890, 18, 0);
 
-	devmem_cgo.Writebit(0x1c20890, 20, 1) //pe5 out
-	devmem_cgo.Writebit(0x1c20890, 21, 0)
-	devmem_cgo.Writebit(0x1c20890, 22, 0)
+	Writebit(0x1c20890, 20, 1); //pe5 out
+	Writebit(0x1c20890, 21, 0);
+	Writebit(0x1c20890, 22, 0);
 
-	devmem_cgo.Writebit(0x1c20894, 8, 1) //pe10 out
-	devmem_cgo.Writebit(0x1c20894, 9, 0)
-	devmem_cgo.Writebit(0x1c20894, 10, 0)
+	Writebit(0x1c20894, 8, 1); //pe10 out
+	Writebit(0x1c20894, 9, 0);
+	Writebit(0x1c20894, 10, 0);
 
-	devmem_cgo.Writebit(0x1c20894, 12, 1) //pe11 out
-	devmem_cgo.Writebit(0x1c20894, 13, 0)
-	devmem_cgo.Writebit(0x1c20894, 14, 0) 
+	Writebit(0x1c20894, 12, 1) ;//pe11 out
+	Writebit(0x1c20894, 13, 0);
+	Writebit(0x1c20894, 14, 0) ;
     
      
     OLED_RST_Set();
-    delay_ms(100);
+    usleep(100000);
     OLED_RST_Clr();
-    delay_ms(100);
+    usleep(100000);
     OLED_RST_Set(); 
                       
     OLED_WR_Byte(0xAE,OLED_CMD);//--turn off oled panel
