@@ -18,30 +18,31 @@ const (
 	SIZE       = 16
 	Max_Column = 128
 	Max_Row    = 64
+
+	GPIO_BASE = 0x1c20800
 )
 
-
 func Init() {
-	devmem_cgo.Openfile()
-	devmem_cgo.Writebit(0x1c20890, 12, 1) //pe3 out
-	devmem_cgo.Writebit(0x1c20890, 13, 0)
-	devmem_cgo.Writebit(0x1c20890, 14, 0)
+	devmem_cgo.Openfile(GPIO_BASE)
+	devmem_cgo.Writebit(0x90, 12, 1) //pe3 out
+	devmem_cgo.Writebit(0x90, 13, 0)
+	devmem_cgo.Writebit(0x90, 14, 0)
 
-	devmem_cgo.Writebit(0x1c20890, 16, 1) //pe4 out
-	devmem_cgo.Writebit(0x1c20890, 17, 0)
-	devmem_cgo.Writebit(0x1c20890, 18, 0)
+	devmem_cgo.Writebit(0x90, 16, 1) //pe4 out
+	devmem_cgo.Writebit(0x90, 17, 0)
+	devmem_cgo.Writebit(0x90, 18, 0)
 
-	devmem_cgo.Writebit(0x1c20890, 20, 1) //pe5 out
-	devmem_cgo.Writebit(0x1c20890, 21, 0)
-	devmem_cgo.Writebit(0x1c20890, 22, 0)
+	devmem_cgo.Writebit(0x90, 20, 1) //pe5 out
+	devmem_cgo.Writebit(0x90, 21, 0)
+	devmem_cgo.Writebit(0x90, 22, 0)
 
-	devmem_cgo.Writebit(0x1c20894, 8, 1) //pe10 out
-	devmem_cgo.Writebit(0x1c20894, 9, 0)
-	devmem_cgo.Writebit(0x1c20894, 10, 0)
+	devmem_cgo.Writebit(0x94, 8, 1) //pe10 out
+	devmem_cgo.Writebit(0x94, 9, 0)
+	devmem_cgo.Writebit(0x94, 10, 0)
 
-	devmem_cgo.Writebit(0x1c20894, 12, 1) //pe11 out
-	devmem_cgo.Writebit(0x1c20894, 13, 0)
-	devmem_cgo.Writebit(0x1c20894, 14, 0)
+	devmem_cgo.Writebit(0x94, 12, 1) //pe11 out
+	devmem_cgo.Writebit(0x94, 13, 0)
+	devmem_cgo.Writebit(0x94, 14, 0)
 
 	SetRst()
 	time.Sleep(time.Millisecond * 100)
@@ -84,40 +85,40 @@ func Init() {
 }
 
 func SetClk() {
-	devmem_cgo.Writebit(0x1c208a0, 3, 1)
+	devmem_cgo.Writebit(0xa0, 3, 1)
 }
 func ClrClk() {
-	devmem_cgo.Writebit(0x1c208a0, 3, 0)
+	devmem_cgo.Writebit(0xa0, 3, 0)
 }
 
 func SetDi() {
-	devmem_cgo.Writebit(0x1c208a0, 4, 1)
+	devmem_cgo.Writebit(0xa0, 4, 1)
 }
 
 func ClrDi() {
-	devmem_cgo.Writebit(0x1c208a0, 4, 0)
+	devmem_cgo.Writebit(0xa0, 4, 0)
 }
 
 func SetRst() {
-	devmem_cgo.Writebit(0x1c208a0, 5, 1)
+	devmem_cgo.Writebit(0xa0, 5, 1)
 }
 
 func ClrRst() {
-	devmem_cgo.Writebit(0x1c208a0, 5, 0)
+	devmem_cgo.Writebit(0xa0, 5, 0)
 }
 func SetDc() {
-	devmem_cgo.Writebit( 0x1c208a0, 10, 1)
+	devmem_cgo.Writebit(0xa0, 10, 1)
 }
 
 func ClrDc() {
-	devmem_cgo.Writebit(0x1c208a0, 10, 0)
+	devmem_cgo.Writebit(0xa0, 10, 0)
 }
 func SetCs() {
-	devmem_cgo.Writebit( 0x1c208a0, 11, 1)
+	devmem_cgo.Writebit(0xa0, 11, 1)
 }
 
 func ClrCs() {
-	devmem_cgo.Writebit(0x1c208a0, 11, 0)
+	devmem_cgo.Writebit(0xa0, 11, 0)
 }
 
 func WriteByte(dat, cmd byte) {
@@ -195,4 +196,3 @@ func ShowString(x, y byte, chrs string) {
 	}
 
 }
-

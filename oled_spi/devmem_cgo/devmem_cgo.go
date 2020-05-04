@@ -3,14 +3,13 @@ package devmem_cgo
 //#include"devmem.h"
 import "C"
 
-func Openfile(){
-   C.Openfile()
+func Openfile(target int32) {
+	C.Openfile(C.long(target))
 }
 
-func Closefile(){
-    C.Closefile()
+func Closefile() {
+	C.Closefile()
 }
-func Writebit(target int32, bitsize int, value byte) {
-	C.Writebit(C.long(target), C.int(bitsize), C.char(value))
+func Writebit(offset int, bitsize int, value byte) {
+	C.Writebit(C.int(offset), C.int(bitsize), C.char(value))
 }
-
